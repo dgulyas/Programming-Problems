@@ -1,0 +1,62 @@
+ /*
+Problem 24
+https://projecteuler.net/problem=24
+*/
+
+#include <iostream>
+
+using namespace std;
+
+void swap(int array[], int a, int b){
+  int tmp = array[a];
+	array[a] = array[b];
+	array[b] = tmp;
+}
+
+void flip(int array[],int start, int end){//flips all elements between start and end inclusively
+	for(int i = 0;i <= (end-start)/2;i++)
+		swap(array, start+i, end-i);
+}
+
+void print(int array[],int size){
+	for(int i = 0; i < size; i++)
+		cout << array[i] << ",";
+	cout << endl;
+}
+
+void nextLexOrder(int perm[], int size){
+	int a = size-2;
+	int b = size-1;
+	//cout << "Before" << endl;
+	//print(perm,size);
+	
+	while(perm[a] >= perm[a+1]) //sweep from the right 
+		a--;
+	//cout << "a: " << a << endl;
+
+	while(perm[b] <= perm[a])
+		b--;
+	//cout << "b: " << b << endl;
+	
+	swap(perm,a,b);
+	//cout << endl << "after swap" << endl;
+	//print(perm,size);
+	
+	flip(perm,a+1,size-1);
+	//cout << endl << "after flip" << endl;
+	//print(perm,size);	
+}
+
+int main () {
+	
+	int perm[] = {0,1,2,3,4,5,6,7,8,9};
+	
+	for(int i = 1; i < 1000000; i++){
+		nextLexOrder(perm,10);
+		//cout << "i: " << i << endl;
+		//print(perm,10);
+	}
+	print(perm,10);
+    return 0;
+}
+
