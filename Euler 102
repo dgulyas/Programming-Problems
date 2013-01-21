@@ -1,0 +1,147 @@
+ /*
+http://projecteuler.net/problem=102
+Three distinct points are plotted at random on a Cartesian plane, for which -1000  x, y  1000, such that a triangle is formed.
+
+Consider the following two triangles:
+
+A(-340,495), B(-153,-910), C(835,-947)
+
+X(-175,41), Y(-421,-714), Z(574,-645)
+
+It can be verified that triangle ABC contains the origin, whereas triangle XYZ does not.
+
+Using triangles.txt (right click and 'Save Link/Target As...'), a 27K text file containing the co-ordinates of one thousand 
+"random" triangles, find the number of triangles for which the interior contains the origin.
+
+NOTE: The first two examples in the file represent the triangles in the example given above.
+*/
+
+#include <iostream>
+#include <iomanip>
+#include <math.h>
+
+using namespace std;
+
+struct triangle{ //has points 1,2,3
+  double x1;
+	double y1;
+	double x2;
+	double y2;
+	double x3;
+	double y3;
+};
+
+//implementing this: http://www.exaflop.org/docs/cgafaq/cga1.html
+double triArea(struct triangle tri){
+	double L;
+	double r;
+	double s;
+	double xP; //P = point on line 12 that is closest to 3
+	double yP;
+	
+	//length of line 12
+	L = sqrt((tri.x2-tri.x1)*(tri.x2-tri.x1) + (tri.y2-tri.y1)*(tri.y2-tri.y1)); 
+	
+	
+	//r=0      P = 1
+    //r=1      P = 2
+    //r<0      P is on the backward extension of 12
+    //r>1      P is on the forward extension of 12
+    //0<r<1    P is interior to 12
+	r = ((tri.y1-tri.y3)*(tri.y1-tri.y2)-(tri.x1-tri.x3)*(tri.x2-tri.x1))/(L*L); //
+	
+	//projection of point 3 on line 12
+	xP = tri.x1 + r*(tri.x2-tri.x1); 
+	yP = tri.y1 + r*(tri.y2-tri.y1);
+	
+	//s<0      3 is left of 12
+    //s>0      3 is right of 12
+    //s=0      3 is on 12
+	s = ((tri.y1-tri.y3)*(tri.x2-tri.x1)-(tri.x1-tri.x3)*(tri.y2-tri.y1))/(L*L);
+	
+	//return area of the triangle
+	return fabs(s*L*L/2);
+} 
+
+void printTriangle(struct triangle tri){
+	int width = 9;
+	cout << setw(width)<< tri.x1 << " " << setw(width)<< tri.y1 << endl;
+	cout << setw(width)<< tri.x2 << " " << setw(width)<< tri.y2 << endl;
+	cout << setw(width)<< tri.x3 << " " << setw(width)<< tri.y3 << endl;
+}
+
+void rotatePoint(double angle, double *x, double *y){
+	double origx = *x;
+	double origy = *y;
+	*x = origx*cos(angle) - origy*sin(angle);
+	*y = origx*sin(angle) + origy*cos(angle);
+	
+	if(*x < 0.0001 && *x > -0.0001)
+		*x = 0.0;
+	if(*y < 0.0001 && *y > -0.0001)
+		*y = 0.0;
+}
+
+//angle in radians
+void rotateTriangle(struct triangle *tri, double angle){
+	rotatePoint(angle, &(tri->x1), &(tri->y1));
+	rotatePoint(angle, &(tri->x2), &(tri->y2));
+	rotatePoint(angle, &(tri->x3), &(tri->y3));
+}
+
+int main(){
+	triangle tri;
+	double tmpx, tmpy;
+	double totalArea, area1,area2,area3;
+	char tmp;
+	int num = 0;
+	int total = 0;
+	
+	
+	while(cin){
+		cout << "***********************" << endl;
+		cin >> tri.x1 >> tmp >> tri.y1 >> tmp >> tri.x2
+			>> tmp >> tri.y2 >> tmp >> tri.x3 >> tmp >> tri.y3;
+		
+		printTriangle(tri);
+		
+		totalArea = triArea(tri);
+		
+		tmpx = tri.x1;
+		tmpy = tri.y1;
+		tri.x1 = 0.0;
+		tri.y1 = 0.0;		
+		area1 = triArea(tri);		
+		tri.x1 = tmpx;
+		tri.y1 = tmpy;
+		
+		tmpx = tri.x2;
+		tmpy = tri.y2;
+		tri.x2 = 0.0;
+		tri.y2 = 0.0;		
+		area2 = triArea(tri);		
+		tri.x2 = tmpx;
+		tri.y2 = tmpy;
+		
+		tmpx = tri.x3;
+		tmpy = tri.y3;
+		tri.x3 = 0.0;
+		tri.y3 = 0.0;		
+		area3 = triArea(tri);		
+		tri.x3 = tmpx;
+		tri.y3 = tmpy;	
+		
+		//forgot to compare them the "proper" way the first time
+		if(fabs(totalArea - (area1+area2+area3)) < 0.0001){
+			cout << "Contains Origin" << endl;
+			num++;
+		}else{
+			cout << " Doesn't Contain Origin" << endl;
+		}
+		total++;
+		
+	}
+	cout << "***********************" << endl;
+	cout << "Total" << total << "  Num: " << num << endl;
+return 0;
+}
