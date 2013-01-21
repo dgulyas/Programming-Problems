@@ -1,0 +1,46 @@
+/*
+http://projecteuler.net/problem=26
+*/
+
+#include <iostream>
+
+using namespace std;
+
+int findLongestSequence(int i){
+
+  int rem = 1; //the remainder we work on (1/n)
+	int pos = 0; //length so far
+
+	int remain[2000]; //2000 should be enough
+	for(int j = 0; j < 2000; j++)
+		remain[j] = 0;
+
+	//if the remainder is 0, we can't  divide anymore
+	//if we've seen this remainder before, we know we've completed a cycle
+	while (rem != 0 && remain[rem] == 0){
+	    remain[rem] = pos;
+	    rem = (rem * 10) % i;
+	    pos++;
+	}
+
+	//the current length minus the length at the start of the cycle
+    return pos - remain[rem];
+
+}
+
+
+int main() {
+
+	int max = 0;
+	int tmp;
+
+	for(int i = 1; i < 1000; i++){
+		tmp = findLongestSequence(i);
+		cout << "i: " << i << " tmp: " << tmp << endl;
+		if(tmp > max)
+			max = i;
+	}
+	cout << endl;
+	cout << max << endl;
+	return 0;
+}
