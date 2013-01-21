@@ -1,0 +1,61 @@
+/*
+100 - The 3n + 1 problem
+http://uva.onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=36
+*/
+
+#include <iostream>
+#include <sstream>
+#include <string>
+using namespace std;
+
+long long collatz(int num){
+  long long count = 1; //count of how many cycles have been done
+	while(num != 1){ 
+		if(num%2 == 1)
+	        num = num*3 + 1;
+		else
+	     	num = num / 2;
+		count++;
+			}
+	return count;
+}
+
+int main(){
+	string s;
+    int lower = 0; //lower bound of the range
+    int upper = 0; //upper bound of the range
+	long long max; //max number we've found so far
+	long long tmp;
+	int swap;
+	int flag = 0;
+	
+	cin >> lower >> upper;
+	if(lower > upper){
+		swap = upper;
+		upper = lower;
+		lower = swap;
+		flag = 1;	
+	}
+	while (cin.eof() == false){
+		max = 0;
+    	for(int i = lower; i <= upper; i++){
+    		tmp = collatz(i);		
+			if(tmp > max)
+				max = tmp;
+		}
+		if(flag == 0)
+			cout << lower << " " << upper << " " << max <<endl; 
+		else{
+			cout << upper << " " << lower << " " << max <<endl;
+			flag = 0;
+		}
+		cin >> lower >> upper;
+		if(lower > upper){
+			swap = upper;
+			upper = lower;
+			lower = swap;	
+			flag = 1;
+		}
+	}
+	return 0;
+}
