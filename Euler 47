@@ -1,0 +1,130 @@
+ /*
+http://projecteuler.net/problem=47
+The first two consecutive numbers to have two distinct prime factors are:
+
+14 = 2  7
+15 = 3  5
+
+The first three consecutive numbers to have three distinct prime factors are:
+
+644 = 2²  7  23
+645 = 3  5  43
+646 = 2  17  19.
+
+Find the first four consecutive integers to have four distinct primes factors.
+ What is the first of these numbers?
+ **************
+ Accidentally implemented sieveing for primes.
+ 
+ 
+*/
+
+#include <iostream>
+#include <math.h>
+#include <vector>
+
+using namespace std;
+vector<int> primes;//holds all primes
+
+vector<int> factors(int a){
+  vector<int> arr; //each place holds the prime and the # of times it appears
+	int hash; //num that's going in arr vector
+	int num = 0; //number of times that factor appears
+	int tmp = 0; //place in the arr vector
+	int i = 0; //place in the primes array
+	while(a != 1){
+		if(i == primes.size()){
+			primes.push_back(a);
+		}else{
+			if(a%primes[i] == 0){
+				hash = primes[i]*100;
+			
+			}
+			while(a%primes[i] == 0){	
+				num++;
+				a = a / primes[i];
+			}
+			if(num != 0){
+				arr.push_back(hash + num);
+				num = 0;
+				tmp++;
+			}
+			i++;
+		}
+	}
+	arr[tmp] = 0;
+	return arr;
+	
+}
+
+bool diff(vector<int> one, vector<int> two){
+	bool diff = true;
+	int i = 0, j;
+	while(one[i] != 0){
+		j = 0;
+		while(two[j] != 0){
+			if(one[i] == two[j]){
+				diff = false;
+				//cout << one[i] << " and " << two[j] << endl;
+			}
+			j++;
+		}
+		i++;
+	}
+	return diff;
+
+}
+
+int main(){
+	vector<int> num1;
+	vector<int> num2;
+	vector<int> num3;
+	vector<int> num4;
+	int i;
+	int tmp;
+
+	/*//testing out stuff
+	cout << primes.size() << endl;
+
+	num1 = factors(751);
+	cout << "NumFactors: " << num1.size() << endl;
+	for(int i = 0; i < num1.size(); i++)
+		cout << num1[i] << ",";
+	cout << endl;
+	
+	num2 = factors(752);
+	cout << "NumFactors: " << num2.size() << endl;
+	i = -1;
+	for(int i = 0; i < num2.size(); i++)
+		cout << num2[i] << ",";
+	cout << endl;
+	
+	if(diff(num1,num2))
+		cout << "True" << endl;
+	else
+		cout << "False" << endl;
+	//*/
+	//*
+	bool done = false;
+	int current = 2;
+	while(!done){
+		cout << current << endl;
+		num1 = factors(current++);
+		if(num1.size() == 4){
+			num2 = factors(current++);
+			if(num2.size() == 4){
+				num3 = factors(current++);
+				if(num3.size() == 4){
+					num4 = factors(current++); 
+					if(num4.size() == 4){
+						done = true;
+						cout << endl << current-4 << endl; //-4 finds first number in set
+					}
+				}
+			}
+		}
+	}
+	//*/
+	return 0;
+}
+
