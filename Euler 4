@@ -1,0 +1,73 @@
+ /*
+WARNING: The following code sucks quite a lot.
+http://projecteuler.net/problem=4
+A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91  99.
+
+Find the largest palindrome made from the product of two 3-digit numbers.
+
+
+This was an absolutly horrible way to do it.
+Here's what was on the forum.
+
+int max=0;
+for(int i=100;i<=999;i++)
+  for(int j=100;j<=999;j++)
+		if (palin(j*i))
+			if(j*i>max)
+				max=j*i;
+
+I'm now going to go to the c++ nunnery and never code again. x_x
+*/
+
+#include <iostream>
+#include <vector>
+#include <math.h>
+
+using namespace std;
+
+bool pali(int num){//doesn't count leading zeros eg:0990 isn't pali
+	int size = -1;
+	
+	//find number of digits
+	while(num/((int)pow(10,++size)) != 0); //doesn't work if num = 0
+	
+	vector<int> vect(size);
+	
+	for(int i = 0; i < size; i++){
+		vect[i] = num%10;
+		num = num/10;
+	}		
+	
+	bool pal = true; //flag
+	for(int i = 0; i < size/2; i++)
+		if(vect[i] != vect[(size-1)-i])
+			pal = false;
+	//cout << "pal: "<< pal << endl; //debug
+	
+	return pal;
+}
+
+int main(){
+	int tmp;	
+	int i=999 ,j=999;
+	int maxi = 0,maxj=0,max = 0;//hold the max's
+	
+	while(i>99 || j>99){
+		if(pali(i*j))
+			if(i*j > max){
+				max = i*j;
+				maxi = i;
+				maxj = j;
+			}
+			
+			if(i == 99){
+				j--;
+				i = 999;
+			}else
+				i--;
+	}
+	cout << "i: " << maxi << "  j: " << maxj << endl << "num: " << max << endl;
+	
+	return 0;
+}
+
