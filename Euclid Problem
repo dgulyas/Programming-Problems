@@ -1,0 +1,50 @@
+ /*
+10104 - Euclid Problem
+http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1045
+*/
+
+//done using Euclids algorithm on p.151 of Programming Challenges
+
+#include <iostream>
+#include <math.h>
+
+using namespace std;
+
+/*
+*finds the gcd of p,q
+* p*x = q*y = gcd(p,q)
+*x,y don't have to have anything in them
+*/
+long int gcd(long int p, long int q, long int *x,long int *y){
+  long int x1, y1, g;
+	
+	if(q>p) return (gcd(q,p,y,x));
+	
+	if(q == 0){
+		*x = 1;
+		*y = 0;
+		return(p);
+	}
+	
+	g = gcd(q, p%q, &x1, &y1);
+	
+	*x = y1;
+	*y = (x1 - floor(p/q)*y1);
+	
+	return(g);
+}
+
+int main () {
+	long int a, b;
+	long int x, y, d;
+	
+	cin >> a;
+	
+	while(cin){
+		cin >> b;
+		d = gcd(a,b,&x,&y);
+		cout << x << " " << y << " " << d << endl;
+		cin >> a;
+	}
+}
+
