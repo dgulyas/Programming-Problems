@@ -1,0 +1,84 @@
+ /*
+http://projecteuler.net/problem=67
+By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
+
+3
+7 4
+2 4 6
+8 5 9 3
+
+That is, 3 + 7 + 4 + 9 = 23.
+
+Find the maximum total from top to bottom in triangle.txt (right click and 'Save Link/Target As...'), a 15K text file containing a triangle with one-hundred rows.
+*/
+
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+int max(int i,int j){
+  if(i>j)
+		return i;
+	else
+		return j;
+	return 0;
+}
+
+int main(){
+	int size = 100;
+	int values[size][size];
+	int cost[size][size];
+	istringstream stream;
+	
+	for(int i = 0; i < size; i++) //clear arrays
+		for(int j = 0; j < size; j++){
+			cost[i][j] = 0;
+			values[i][j] = 0;
+		}
+		
+	string tmp; //load values into values[][]
+	for(int i = 0; i < size; i++){
+		getline(cin,tmp);
+		stream.clear();
+		stream.str(tmp);
+		for(int j = 0; j <= i; j++)
+			stream >> values[i][j];
+	
+	}
+	
+	for(int i = 0; i < size;i++){ //print out values
+		for(int j = 0; j < size+1; j++){
+			cout.width(3);
+			cout << values[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cost[0][0] = values[0][0]; //copies the root
+	
+	for(int i = 1; i < size; i++) //fill the rest of cost
+		for(int j = 0; j <= i; j++)
+			cost[i][j] = values[i][j] + max(cost[i-1][j-1],cost[i-1][j]);
+	
+	
+	for(int i = 0; i < size;i++){ //print out cost
+		for(int j = 0; j < size; j++){
+			cout.width(4);
+			cout << cost[i][j] << " ";
+		}
+		cout << endl << endl;
+	}
+
+	
+	int max = 0; //find the max on last row
+	for(int i = 0; i < 101; i++)
+		if(cost[size-1][i]>max)
+			max = cost[size-1][i];
+	
+	cout << endl << max << endl;
+	
+	
+	return 0;
+}
+
