@@ -1,0 +1,57 @@
+ /*
+Reverse and Add
+http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=959
+*/
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+bool intPali(unsigned long long num){ //needs vector, only works with positive numbers
+  vector<int> sep; //seperated number
+	bool pali = true;
+	
+	while(num > 0){
+		sep.push_back(num %10);
+		num = num / 10;
+	}
+	/*
+	for(int i = 0; i < sep.size(); i++)
+		cout << sep[i] << " ";
+	cout << endl;
+	/**/
+	for(int i = 0; i < sep.size()/2; i++)
+		if(sep[i] != sep[sep.size()-i-1])
+			pali = false;
+	
+	return pali;
+}
+
+unsigned long long reverseNum(unsigned long long num){
+	unsigned long long reverse = 0;	
+	while(num > 0){
+		reverse = reverse*10+(num %10);
+		num = num / 10;
+	}
+	return reverse;
+}
+
+int main(){
+	unsigned long long numIns;
+	cin >> numIns;
+	int cycles;
+	unsigned long long currNum;
+	
+	for(int i = 0; i < numIns; i++){
+		cycles = 0;
+		cin >> currNum;
+		while(!intPali(currNum)){
+			currNum = currNum + reverseNum(currNum);
+			cycles++;
+		}
+		cout << cycles << " " << currNum << endl;
+	}
+	return 0;
+}
+
