@@ -1,0 +1,41 @@
+/*
+10323 - Factorial! You Must be Kidding!!!
+http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&category=15&problem=1264&mosmsg=Submission+received+with+ID+9824776
+*/
+
+#include <iostream>
+
+using namespace std;
+
+int main(){
+  long long fact;             //the input, n
+	unsigned long long current; //holds n!
+	cin >> fact;                //get the first n
+	while(cin){
+		//cout << fact << ": "; //useful for debugging
+		if(fact < 0){ //stupid problem logic. 
+			if(fact%2 == 0){
+				cout << "Underflow!" << endl;
+				cin >> fact;
+			}else{
+				cout << "Overflow!" << endl;
+				cin >> fact;
+			}			
+		}else if(fact > 13){          //14! exceeds the range
+			cout << "Overflow!" << endl;
+			cin >> fact;
+		}else if(fact < 8){     //7! is below the range
+			cout << "Underflow!" << endl;
+			cin >> fact;
+		}else{
+			current = 1;
+			
+			for(int i = 1; i <= fact; i++) //compute n!
+				current *= i;
+				
+			cout << current << endl;
+			cin >> fact;	
+		}
+	}
+	return 0;
+}
