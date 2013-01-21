@@ -1,0 +1,100 @@
+ /*
+Reverse and Add
+http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=959
+*/
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+bool intPali(unsigned long long num){ //needs vector, only works with positive numbers
+  vector<int> sep; //seperated number
+	bool pali = true;
+	
+	while(num > 0){
+		sep.push_back(num %10);
+		num = num / 10;
+	}
+	/*
+	for(int i = 0; i < sep.size(); i++)
+		cout << sep[i] << " ";
+	cout << endl;
+	/**/
+	for(int i = 0; i < sep.size()/2; i++)
+		if(sep[i] != sep[sep.size()-i-1])
+			pali = false;
+	
+	return pali;
+}
+
+
+void printArray(int array[],int size){//size is the num of elements in array;
+	for(long i = 0; i < size; i ++)
+		cout << array[i] << " ";
+	cout << endl;
+}
+
+void printArrayR(int array[],int size){//size is the num of elements in array;
+	for(long i = size-1; i >=0; i--)
+		cout << array[i] << " ";
+	cout << endl;
+}
+
+void clearArray(int array[],int size){//size is the num of elements in array;
+	for(long i = 0; i < size; i ++)
+		array[i] = 0;
+}
+
+
+void shift(int sum[],int length){
+	for(int i = 0; i < length; i++){
+		while(sum[i] > 9){
+			sum[i+1] = sum[i+1] + 1;
+			sum[i] = sum[i] - 10;
+		}	
+	}
+}
+
+void stringToArray(string str, int array[]){
+	for(int i = 0; i < str.length(); i++)
+		array[i] = str[i] - 48;	
+}
+
+
+void addArray(int sum[], int a[], int length){
+	for(int i = 0; i < length; i++){
+		sum[i] = sum[i] + a[i];
+		if(sum[i] > 9){
+			sum[i+1] = sum[i+1] + 1;
+			sum[i] = sum[i] - 10;
+		}		
+	}
+	//shift(sum,length);
+}
+
+
+
+int main(){
+	int size = 60;
+	int array[size];
+	int sum[size];
+	clearArray(sum,size);
+	string num;
+	cin >> num;
+	reverse(num.begin(),num.end());
+	while(cin){
+		clearArray(array,size);
+		stringToArray(num,array);
+		//printArray(array,size);
+		addArray(sum,array,size);
+		cin >> num;
+		reverse(num.begin(),num.end());
+	}
+	printArrayR(sum,size);
+
+	return 0;
+}
+
