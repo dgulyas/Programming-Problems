@@ -1,0 +1,14 @@
+/*
+http://projecteuler.net/problem=15
+Starting in the top left corner of a 22 grid, there are 6 routes (without backtracking) to the bottom right corner.
+How many routes are there through a 20x20 grid?
+
+I solved this problem by computing 40 choose 20.
+A path throught the 20x20 grid can be thought of as a combination of movements down (D) and movements right (R). Each path can be thought of as a string with 20 R's and 20 D's in it. If we consider the index of all the D's then a grouping of them will be a unique set for each unigue path through the grid. eg(5x5 grid)
+
+0123456789
+RDRDRDRDRD -> 1,3,5,7,9
+RRRRRDDDDD -> 5,6,7,8,9
+
+10 choose 5 is by definition the number of unique sets we can make in this way. This extends to the 20x20 case in the form of 40 choose 20.
+*/
