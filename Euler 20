@@ -1,0 +1,52 @@
+/*
+Problem 20
+https://projecteuler.net/problem=20
+*/
+
+#include <iostream>
+
+using namespace std;
+
+int sumArray(int array[], int size){ //sums the elements exclusive of element[size]
+  int sum = 0;
+	for(int i = 0; i < size; i++)
+		sum = sum + array[i];
+	return sum;
+}
+
+void printArray(int array[],int size){//size is the num of elements in array;
+	for(long i = 0; i < size; i ++)
+		cout << array[i] << ",";
+	cout << endl;
+}
+
+void clearArray(int array[],int size){//size is the num of elements in array;
+	for(long i = 0; i < size; i ++)
+		array[i] = 0;
+}
+
+int main(){
+	int sum = 0; //sum of all the digits
+	int size = 200; //size of array
+	int fact[size]; //initialize factorial array
+	
+	clearArray(fact,size);
+	fact[0]=1;
+	
+	for(int i = 1; i <= 100; i++){
+		for(int j = 0; j < size; j++){
+			fact[j] = fact[j] * i;
+		}			
+		for(int j = 0; j < size;j++){
+			if(fact[j] > 9){
+				fact[j+1] = fact[j+1] + fact[j]/10;
+				fact[j] = fact[j] % 10;
+    	    }	
+		}
+	}
+	
+	printArray(fact,size);
+	cout << sumArray(fact,size) << endl;
+	
+	return 0;
+}
