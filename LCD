@@ -1,0 +1,121 @@
+/*
+706 - LCD Display
+http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=9&page=show_problem&problem=647
+*/
+
+#include <iostream>
+#include <string>
+#include <assert.h>
+using namespace std;
+
+int main(){
+
+  int size; //size of numbers
+	string num; //number to display
+	//length of number //num.length()
+	char map[10][5][3] = 
+	{{{' ','-',' '},
+	{'|',' ','|'},
+	{' ',' ',' '},
+	{'|',' ','|'},
+	{' ','-',' '}},
+ 	{{' ',' ',' '},
+	{' ',' ','|'},
+	{' ',' ',' '},
+	{' ',' ','|'},
+	{' ',' ',' '}},
+	{{' ','-',' '},
+	{' ',' ','|'},
+	{' ','-',' '},
+	{'|',' ',' '},
+	{' ','-',' '}},
+	{{' ','-',' '},
+	{' ',' ','|'},
+	{' ','-',' '},
+	{' ',' ','|'},
+	{' ','-',' '}},
+	{{' ',' ',' '},
+	{'|',' ','|'},
+	{' ','-',' '},
+	{' ',' ','|'},
+	{' ',' ',' '}},
+	{{' ','-',' '},
+	{'|',' ',' '},
+	{' ','-',' '},
+	{' ',' ','|'},
+	{' ','-',' '}},
+	{{' ','-',' '},
+	{'|',' ',' '},
+	{' ','-',' '},
+	{'|',' ','|'},
+	{' ','-',' '}},
+	{{' ','-',' '},
+	{' ',' ','|'},
+	{' ',' ',' '},
+	{' ',' ','|'},
+	{' ',' ',' '}},
+	{{' ','-',' '},
+	{'|',' ','|'},
+	{' ','-',' '},
+	{'|',' ','|'},
+	{' ','-',' '}},
+	{{' ','-',' '},
+	{'|',' ','|'},
+	{' ','-',' '},
+	{' ',' ','|'},
+	{' ','-',' '}}};
+	
+	cin >> size >> num;
+	int width;
+	while (size != 0 || num != "0"){
+		width = (size+2)*num.length()+num.length()-1;
+		char output [2*size+3][width];
+		
+		for(int i = 0; i < 2*size+3;i++)
+			for(int j = 0; j < width;j++)
+				output[i][j] = ' ';
+		
+		/*for(int i = 0; i < 2*size+3;i++){
+			for(int j = 0; j < width;j++)
+				cout << output[i][j];
+			cout << endl;
+		}*/
+		
+		for(int i = 0; i < num.length(); i++)
+			for(int j = 0; j < size; j++)
+				output[0][(3+size)*i+j+1] = map[(int)(num[i])-48][0][1];
+			
+		for(int i = 0; i < num.length(); i++)
+			for(int j = 0; j < size; j++)
+				output[2*size+2][(3+size)*i+j+1] = map[(int)(num[i])-48][4][1];
+
+		for(int i = 0; i < num.length(); i++)
+			for(int j = 0; j < size; j++)
+				output[size+1][(3+size)*i+j+1] = map[(int)(num[i])-48][2][1];	
+		
+		for(int i = 0; i < num.length(); i++)
+			for(int j = 0; j < size; j++)
+				output[1+j][(3+size)*i] = map[(int)(num[i])-48][1][0];
+				
+		for(int i = 0; i < num.length(); i++)
+			for(int j = 0; j < size; j++)
+				output[1+j][(3+size)*(1+i)-2] = map[(int)(num[i])-48][1][2];
+		
+		for(int i = 0; i < num.length(); i++)
+			for(int j = 0; j < size; j++)
+				output[2+j+size][(3+size)*i] = map[(int)(num[i])-48][3][0];		
+		
+		for(int i = 0; i < num.length(); i++)
+			for(int j = 0; j < size; j++)
+				output[2+j+size][(3+size)*(1+i)-2] = map[(int)(num[i])-48][3][2];
+				
+		for(int i = 0; i < 2*size+3;i++){
+			for(int j = 0; j < width;j++)
+				cout << output[i][j];
+			cout << endl;
+		}
+		cout << endl;
+		cin >> size >> num;
+	}
+	return 0;
+}
