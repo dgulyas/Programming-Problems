@@ -1,0 +1,115 @@
+ /*
+10189 - Minesweeper
+http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=13&page=show_problem&problem=1130
+*/
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(){
+  string inLine;
+    int n = 0; //number of rows
+    int m = 0; //numbers of columns
+    int fieldNum = 0;
+    int first = 1;
+	
+	cin >> n >> m;
+	while (!(n == 0 && m == 0)){	
+		fieldNum ++;
+		
+		if(first == 1)
+			first = 0;
+		else
+			cout << endl;
+		
+		if(m <= 0){
+			cout << "Field #" << fieldNum << ":" << endl;
+		}else{
+		
+		char fieldChar[n][m];
+		int fieldInt[n][m];
+		
+		for(int i = 0; i < n; i++) //clear arrays
+			for(int j = 0; j < m; j++){
+				fieldInt[i][j] = -1;
+				fieldChar[i][j] = 'h';
+			}		
+		
+		for(int i = 0; i < n; i++){ //copy in mine field data
+			cin >> inLine;
+			for(int j = 0; j < m;j++)
+				fieldChar[i][j] = inLine[j];
+		}
+
+		/*for(int i = 0; i < n; i++){ //print arrays
+			for(int j = 0; j < m; j++)
+				cout << fieldInt[i][j] << " ";
+			cout << endl;
+		}
+		
+		cout << endl;
+		for(int i = 0; i < n; i++){ //print arrays
+			for(int j = 0; j < m; j++)
+				cout << fieldChar[i][j] << " ";
+			cout << endl;
+		}*/
+		
+		for(int i = 0; i < n; i++) //calc fieldInt data
+			for(int j = 0; j < m; j++){
+				
+				int count = 0;
+				
+				if(i-1 < n && i-1 > -1 && j-1 < m && j-1 > -1)
+					if(fieldChar[i-1][j-1] == '*')
+						count++;
+						
+				if(i-1 < n && i-1 > -1)
+					if(fieldChar[i-1][j] == '*')
+						count++;
+						
+				if(i-1 < n && i-1 > -1 && j+1 < m && j+1 > -1)
+					if(fieldChar[i-1][j+1] == '*')
+						count++;
+						
+				if( j-1 < m && j-1 > -1)
+					if(fieldChar[i][j-1] == '*')
+						count++;
+						
+				if(j+1 < m && j+1 > -1)
+					if(fieldChar[i][j+1] == '*')
+						count++;
+						
+				if(i+1 < n && i+1 > -1 && j-1 < m && j-1 > -1)
+					if(fieldChar[i+1][j-1] == '*')
+						count++;
+						
+				if(i+1 < n && i+1 > -1)
+					if(fieldChar[i+1][j] == '*')
+						count++;
+		
+				if(i+1 < n && i+1 > -1 && j+1 < m && j+1 > -1)
+					if(fieldChar[i+1][j+1] == '*')
+						count++;
+						
+				if(fieldChar[i][j] == '*')
+					count = -1;
+				
+				fieldInt[i][j] = count;				
+			}
+		cout << "Field #" << fieldNum << ":" << endl;
+		for(int i = 0; i < n; i++){ //print arrays
+			for(int j = 0; j < m; j++)
+				if(fieldInt[i][j] == -1)
+					cout << '*';
+				else
+					cout << fieldInt[i][j];
+			cout << endl;
+		}
+		//cout << endl;
+		}
+		cin >> n >> m;
+		
+	}
+	return 0;
+}
