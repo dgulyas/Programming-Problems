@@ -1,0 +1,63 @@
+ /*
+10077 - The Stern-Brocot Number System
+http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1018
+
+Please note: this isn't a good way to implement fractions
+*/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct frac{
+  long long top;
+	long long bottem;
+};
+
+void print(struct frac one){
+	cout << one.top << "/" << one.bottem << endl;
+}
+
+double value(struct frac middle){
+	return ((double)middle.top)/((double)middle.bottem);
+
+}
+
+int main () {
+	double dest;
+	struct frac right;
+	struct frac left;
+	struct frac middle;
+	long long in1, in2;
+	cin >> in1 >> in2;
+	
+	while(!(in1 == 1 && in2 == 1)){
+		dest = (double)in1/(double)in2;
+		right.top = 1;
+		right.bottem = 0;		
+		left.top = 0;
+		left.bottem = 1;	
+		middle.top = 1;
+		middle.bottem = 1;		
+		string s = "";		
+		
+		while(middle.top != in1 || middle.bottem != in2){
+			if(value(middle) > dest){
+				right.top = middle.top;
+				right.bottem = middle.bottem;
+				s = s + 'L';		
+			}else if(value(middle) < dest){
+				left.top = middle.top;
+				left.bottem = middle.bottem;
+				s = s + 'R';
+			}
+			middle.top = left.top + right.top;
+			middle.bottem = left.bottem + right.bottem;
+		}
+		cout << s << endl;
+		
+		cin >> in1 >> in2;	
+	}
+    return 0;
+}
