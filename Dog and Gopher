@@ -1,0 +1,58 @@
+ /*
+10310 - Dog and Gopher
+http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1251
+*/
+
+#include <iostream>
+#include <iomanip>
+#include <math.h>
+
+using namespace std;
+
+int main(){
+  int numHoles;
+	double dogx; //where the dog is
+	double dogy; 
+	double gophx; //where the gopher is
+	double gophy;
+	double holex; //where the current hole is
+	double holey;
+	double firstx = 99999.0; //the coordinates of the first safe hole.
+	double firsty = 99999.0; //using 99999 as a null value
+	double distDog; //distance of dog from the hole
+	double distGoph; //distance of gopher from the hole
+	
+	while(cin >> numHoles){
+
+		//cout << "***********************" << endl;
+		//cout << "Holes: " << numHoles << endl;
+		cin >> gophx >> gophy >> dogx >> dogy;
+		//cout << gophx << " " << gophy << " " << dogx << " " << dogy << endl;
+		for(int i = 0; i < numHoles; i++){
+			cin >> holex >> holey;
+			//cout << "Hole: " << holex << " " << holey << endl;
+			
+			distDog = sqrt((holex-dogx)*(holex-dogx)+(holey-dogy)*(holey-dogy));
+			distGoph = sqrt((holex-gophx)*(holex-gophx)+(holey-gophy)*(holey-gophy));
+			//cout << "DistDog: " << distDog << "  DistGoph: " << distGoph << endl;
+			
+			if(distGoph*2 <= distDog){
+				if(firstx == 99999.0){
+					//cout << "This is the first safe hole" << endl;
+					firstx = holex;
+					firsty = holey;
+				}
+				//cout << "Gopher can get away" << endl << endl;
+			}else{
+				//cout << "Gopher dies" << endl << endl;
+			}
+		}
+		if(firstx != 99999.0)
+			cout << setiosflags(ios::fixed) << setprecision(3) << "The gopher can escape through the hole at (" << firstx << "," << firsty << ")." << endl;
+		else
+			cout << "The gopher cannot escape." << endl;
+		firstx = 99999.0;
+		firsty = 99999.0;
+	}	
+return 0;
+}
