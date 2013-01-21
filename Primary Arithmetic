@@ -1,0 +1,109 @@
+ /*
+10035 - Primary Arithmetic
+http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=976
+*/
+
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+void clearArray(long array[],long size){
+  for(long i = 0; i < size; i++)
+		array[i] = 0;
+}
+
+long parseInt(long array[],long arraySize, long num){
+	long size = 1; //signifagant digits in num
+	clearArray(array,arraySize);
+	while(num > 0){
+		array[size-1] = num %10;
+		num = num / 10;
+		size++;
+	}
+	return size;
+}
+
+void printArray(long array[],long size){//size is the num of elements in array;
+	for(long i = 0; i < size; i ++)
+		cout << array[i] << " ";
+	cout << endl;
+}
+
+long sumArray(long array[], long size){
+	long sum = 0;
+	for(long i = 0; i < size; i++)
+		sum = sum + array[i];
+	return sum;
+}
+
+void swap(long array[], long x, long y){
+	long z;
+	z = array[x];
+	array[x] = array[y];
+	array[y] = z;
+}
+
+void flip(long array[],long x){//flips all elements above element x exclusively;
+	for(long tmp = 0;tmp < x/2;tmp++){
+		swap(array, tmp, x-tmp-1);
+	}
+}
+
+
+int main(){
+    long num1, num2;
+    long array1[11],array2[11];
+    long carry[11];
+    long sum[11];
+    long numCarry;
+    char tmp;
+    int index;
+	while (1==1){
+		numCarry = 0;
+		clearArray(carry,11);
+		clearArray(sum,11);
+		num1 = 0;
+		num2 = 0;
+
+		cin >> num1 >> num2;
+		if(num1==0 && num2==0)
+			break;
+		parseInt(array1,10,num1);
+		parseInt(array2,10,num2);
+
+		for(long i = 0; i < 10; i++){
+			sum[i]=array1[i]+array2[i]+carry[i];
+			if(sum[i] > 9){
+				carry[i+1] = 1;
+				sum[i] = sum[i] - 10;
+			}
+		}
+		
+		//output results for debugging
+		/*cout << "Carry:";
+		printArray(carry,11);
+		cout << "Num1: ";
+		printArray(array1,10);
+		cout << "Num2: ";
+		printArray(array2,10);
+		cout << "Sum:  ";
+		printArray(sum,11);
+		*/
+		long total = sumArray(carry,11);
+		//cout << total << endl;
+		if(total == 0)
+			cout << "No carry operation." << endl;
+		else if(total == 1)
+			cout << "1 carry operation." << endl;
+		else
+			cout << total <<  " carry operations." << endl;
+		
+		clearArray(carry,11);
+		clearArray(sum,11);
+		//cout << endl;		
+	}
+	return 0;
+}
