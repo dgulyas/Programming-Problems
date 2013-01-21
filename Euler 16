@@ -1,0 +1,60 @@
+ /*
+http://projecteuler.net/problem=16
+2^15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+What is the sum of the digits of the number 2^1000?
+*/
+
+#include <iostream>
+
+using namespace std;
+
+void printArrayR(int array[],int size){//size is the num of elements in array;
+  for(long i = size-1; i >=0; i--)
+		cout << array[i] << " ";
+	cout << endl;
+}
+
+void clearArray(int array[],int size){//size is the num of elements in array;
+	for(long i = 0; i < size; i ++)
+		array[i] = 0;
+}
+
+int main(){
+	int size = 400;
+	int total = 0;
+	int a[size]; //the current total.
+	int sum[size]; //holds the sum of a+a
+	clearArray(a,size);
+	
+	
+	a[0] = 1;
+	for(int j =1; j<= 1000;j++){
+		for(long i = 0; i < size; i ++)//clear sum
+			sum[i] = 0;
+			
+		for(int i = 0; i < size; i++){//sum = a+a
+			sum[i] = a[i] + a[i];
+		}
+		
+		for(int i = 0; i < size; i++) //test for carries
+			if(sum[i] > 9){
+				sum[i+1] = sum[i+1] + 1;
+				sum[i] = sum[i] - 10;
+			}
+		
+		
+		for(int i = 0; i < size; i++)
+			a[i] = sum[i];
+
+	}
+	cout << "sum: "; 
+	printArrayR(sum,size);
+	
+	for(int i = 0; i < size; i++) //sum the digits
+		total = total + sum[i];
+	
+	cout << endl << total << endl;
+	
+	return 0;
+}
+
